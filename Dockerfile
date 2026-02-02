@@ -31,6 +31,15 @@ RUN pnpm ui:build
 
 ENV NODE_ENV=production
 
+# Install Chromium and dependencies for browser automation
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+      chromium \
+      fonts-liberation \
+      fonts-noto-color-emoji \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
 # Allow non-root user to write temp files during runtime/tests.
 RUN chown -R node:node /app
 
